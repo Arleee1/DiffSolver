@@ -2,8 +2,6 @@ from typing import Tuple
 
 import numpy
 
-from SystemOfEq.TrigEq import TrigEq
-
 
 class SystemResult:
     def __init__(self):
@@ -14,3 +12,12 @@ class SystemResult:
 
         self.complex_eigen_values: Tuple[numpy.complex, numpy.complex] = None
         self.complex_eigen_vectors: Tuple[Tuple[numpy.complex, numpy.complex], Tuple[numpy.complex, numpy.complex]] = None
+
+    def __str__(self):
+        if self.complex:
+            raise ValueError("Cannot get string from complex, convert to Euler first")
+
+        get_sol = lambda vec, val, i: f"C{i}[{vec[0]}, {vec[0]}]e^({val}t)"
+
+        res = f"{get_sol(self.eigen_vectors[0], self.eigen_values[0], 1)} + {get_sol(self.eigen_vectors[1], self.eigen_values[1], 2)}"
+        return res

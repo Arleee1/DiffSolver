@@ -79,8 +79,8 @@ class BinarySystemSolver:
         complex_res.complex_e_power = exponent
 
         if d > 0:
-            complex_res.complex_eigen_vectors = (vector0, vector1)
+            complex_res.complex_vectors = (vector0, vector1)
         else:
-            complex_res.complex_eigen_vectors = (vector1, vector0)
+            complex_res.complex_vectors = (vector1, vector0)
 
         return complex_res
