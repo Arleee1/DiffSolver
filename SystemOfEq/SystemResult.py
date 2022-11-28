@@ -2,6 +2,8 @@ from typing import Tuple
 
 import numpy
 
+from SystemOfEq.TrigEq import TrigEq
+
 
 class SystemResult:
     def __init__(self):
