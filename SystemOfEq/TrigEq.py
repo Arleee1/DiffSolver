@@ -6,4 +6,11 @@ class TrigEq:
         self.cos_coeff_outer: float = cos_coeff_outer
 
     def __str__(self):
-        return f"{self.sin_coeff_outer}sin({self.sin_coeff_inner}t) + {self.cos_coeff_outer}cos({self.cos_coeff_inner}t)"
+        res = ""
+        if self.sin_coeff_outer != 0:
+            res += f"""{self.sin_coeff_outer if self.sin_coeff_outer != 1 else ""}sin({self.sin_coeff_inner}t)"""
+        if self.cos_coeff_outer != 0:
+            res += f""" {"+" if self.cos_coeff_outer >= 0 else "-"} """ if res != "" else ""
+            res += f"""{abs(self.cos_coeff_outer) if abs(self.cos_coeff_outer) != 1 else ""}cos({self.cos_coeff_inner}t)"""
+        return res
+
