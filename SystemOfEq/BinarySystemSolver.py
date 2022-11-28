@@ -18,13 +18,32 @@ class BinarySystemSolver:
 
         left = N.add(a, d)
         left = N.divide(left, 2)
-        right = N.sqrt(0j + N.subtract(N.square(N.add(a, d)), N.multiply(4, N.subtract(N.multiply(a, d), N.multiply(b, c)))))
+        determinant = N.subtract(N.square(N.add(a, d)), N.multiply(4, N.subtract(N.multiply(a, d), N.multiply(b, c))))
+        right = N.sqrt((0j if determinant < 0 else 0) + determinant)
         right = N.divide(right, 2)
 
-        res.eigen_values = (N.subtract(left, right), N.add(left, right))
+        eigen_value0 = N.subtract(left, right)
+        eigen_value1 = N.add(left, right)
 
-        eigen_vector0 = (N.multiply(-1, b), N.subtract(a, res.eigen_values[0]))
-        eigen_vector1 = (N.multiply(-1, b), N.subtract(a, res.eigen_values[1]))
+        res.complex = determinant < 0
 
-        res.eigen_vectors = (eigen_vector0, eigen_vector1)
+        if (res.complex and N.imag(eigen_value0) < N.imag(eigen_value1)) or not res.complex and eigen_value0 < eigen_value1:
+            eigen_values = (eigen_value0, eigen_value1)
+        else:
+            eigen_values = (eigen_value1, eigen_value0)
+
+        if not res.complex:
+            res.eigen_values = eigen_values
+        else:
+            res.complex = True
+            res.complex_eigen_values = eigen_values
+
+        eigen_vector0 = (N.multiply(-1, b), N.subtract(a, eigen_values[0]))
+        eigen_vector1 = (N.multiply(-1, b), N.subtract(a, eigen_values[1]))
+
+        if not res.complex:
+            res.eigen_vectors = (eigen_vector0, eigen_vector1)
+        else:
+            res.complex_eigen_vectors = (eigen_vector0, eigen_vector1)
+
         return res

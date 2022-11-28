@@ -10,11 +10,27 @@ class TestSystemOfEq(unittest.TestCase):
         coeffs = ((-9, 4), (4, -9))
         res = solver.solve_system(coeffs)
 
-        self.assertTrue(-5 in res.eigen_values)
-        self.assertTrue(-13 in res.eigen_values)
+        self.assertEqual(-13, res.eigen_values[0])
+        self.assertEqual(-5, res.eigen_values[1])
+
+        self.assertFalse(res.complex)
 
         self.assertAlmostEqual(-1, res.eigen_vectors[0][0]/res.eigen_vectors[0][1], places=5)
         self.assertAlmostEqual(1, res.eigen_vectors[1][0] / res.eigen_vectors[1][1], places=5)
+
+    def testComplexRes(self):
+        solver = BinarySystemSolver()
+        coeffs = ((1, -1), (5, -3))
+
+        res = solver.solve_system(coeffs)
+
+        self.assertTrue(res.complex)
+
+        self.assertEqual(-1-1j, res.complex_eigen_values[0])
+        self.assertEqual(-1+1j, res.complex_eigen_values[1])
+
+        self.assertEqual(2+1j, res.complex_eigen_vectors[0][1]/res.complex_eigen_vectors[0][0])
+        self.assertEqual(2-1j, res.complex_eigen_vectors[1][1]/res.complex_eigen_vectors[1][0])
 
     def testGetRes(self):
         solver = BinarySystemSolver()
