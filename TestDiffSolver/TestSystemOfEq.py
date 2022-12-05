@@ -73,15 +73,3 @@ class TestSystemOfEq(unittest.TestCase):
         res.complex = False
 
         self.assertRaises(ValueError, lambda: solver.euler_simplify(res))
-
-    def testGetRes(self):
-        solver = BinarySystemSolver()
-
-        coeffs = ((1, -1), (5, -3))
-        res = solver.solve_system(coeffs)
-
-        if res.complex:
-            res_euler = solver.euler_simplify(res)
-            print(res_euler)
-        else:
-            print(res)
